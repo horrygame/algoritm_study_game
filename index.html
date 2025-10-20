@@ -663,6 +663,16 @@
             TEXT: '#f5e8c8'
         };
 
+        // Текстуры персонажей
+        const textures = {
+            robot: new Image(),
+            enemy: new Image()
+        };
+
+        // Загрузка текстур
+        textures.robot.src = 'white_guy.png';
+        textures.enemy.src = 'red_guy.png';
+
         // Игровое состояние
         let gameState = {
             currentScreen: 'main_menu',
@@ -745,7 +755,7 @@
                         {x: 1, y: 2}, {x: 3, y: 2}, {x: 5, y: 2}, {x: 7, y: 2},
                         {x: 1, y: 3}, {x: 3, y: 3}, {x: 5, y: 3}, {x: 7, y: 3},
                         {x: 1, y: 4}, {x: 3, y: 4}, {x: 5, y: 4}, {x: 7, y: 4},
-                        {x: 1, y: 5} // Убрали {x: 7, y: 5}, так как там находится цель
+                        {x: 3, y: 5}, {x: 4, y: 5}, {x: 5, y: 5}, {x: 6, y: 5}
                     ],
                     program: [],
                     completed: false,
@@ -789,7 +799,6 @@
                         {x: 1, y: 3}, {x: 2, y: 3}, {x: 4, y: 3}, {x: 6, y: 3}, {x: 8, y: 3},
                         {x: 1, y: 4}, {x: 2, y: 4}, {x: 3, y: 4}, {x: 4, y: 4}, {x: 6, y: 4}, {x: 8, y: 4},
                         {x: 1, y: 5}, {x: 3, y: 5}, {x: 5, y: 5}, {x: 7, y: 5}, {x: 8, y: 5}
-                        // Убрали {x: 9, y: 5}, так как там находится цель
                     ],
                     program: [],
                     completed: false,
@@ -1401,8 +1410,11 @@
         function checkGameResult() {
             const level = gameState.levels[gameState.currentLevel];
             
-            // Проверка достижения цели
-            if (level.robot.x === level.target.x && level.robot.y === level.target.y) {
+            // Проверка достижения цели и уничтожения всех врагов
+            const isOnTarget = level.robot.x === level.target.x && level.robot.y === level.target.y;
+            const allEnemiesDefeated = level.enemies.length === 0;
+            
+            if (isOnTarget && allEnemiesDefeated) {
                 gameState.gameResult = 'win';
                 showGameResult(true);
                 
@@ -1413,6 +1425,12 @@
                 if (gameState.currentLevel < gameState.levels.length - 1) {
                     gameState.levels[gameState.currentLevel + 1].unlocked = true;
                 }
+            } else if (isOnTarget && !allEnemiesDefeated) {
+                // Робот на цели, но враги остались
+                gameState.gameResult = 'lose';
+                failTitle.textContent = 'ВРАГИ НЕ УНИЧТОЖЕНЫ!';
+                failMessage.textContent = 'Робот достиг цели, но не все враги уничтожены.';
+                showGameResult(false);
             } else {
                 gameState.gameResult = 'lose';
                 showGameResult(false);
@@ -1430,8 +1448,6 @@
                 resultMessage.textContent = 'Поздравляем! Вы успешно запрограммировали робота.';
                 gameResultElement.classList.remove('hidden');
             } else {
-                failTitle.textContent = 'ПОПРОБУЙТЕ СНОВА';
-                failMessage.textContent = 'Робот не достиг цели. Попробуйте другую программу.';
                 gameFailElement.classList.remove('hidden');
             }
         }
@@ -1529,11 +1545,18 @@
             ctx.strokeRect(targetX, targetY, gridSize, gridSize);
             
             // Отрисовка врагов
-            ctx.fillStyle = COLORS.ENEMY;
             level.enemies.forEach(enemy => {
                 const screenX = offsetX + (enemy.x + gameState.levelOffset.x) * gridSize;
                 const screenY = offsetY + (enemy.y + gameState.levelOffset.y) * gridSize;
-                ctx.fillRect(screenX, screenY, gridSize, gridSize);
+                
+                // Используем текстуру врага
+                if (textures.enemy.complete) {
+                    ctx.drawImage(textures.enemy, screenX, screenY, gridSize, gridSize);
+                } else {
+                    // Запасной вариант - цветной прямоугольник
+                    ctx.fillStyle = COLORS.ENEMY;
+                    ctx.fillRect(screenX, screenY, gridSize, gridSize);
+                }
                 
                 // Отображение радиуса атаки
                 ctx.strokeStyle = 'rgba(239, 83, 80, 0.5)';
@@ -1553,32 +1576,38 @@
             const robotX = offsetX + (level.robot.x + gameState.levelOffset.x) * gridSize;
             const robotY = offsetY + (level.robot.y + gameState.levelOffset.y) * gridSize;
             
-            ctx.fillStyle = COLORS.ROBOT;
-            ctx.fillRect(robotX, robotY, gridSize, gridSize);
-            
-            // Добавление деталей роботу
-            ctx.fillStyle = '#5d4037';
-            ctx.fillRect(
-                robotX + gridSize * 0.1,
-                robotY + gridSize * 0.1,
-                gridSize * 0.8,
-                gridSize * 0.8
-            );
-            
-            // Глаза робота
-            ctx.fillStyle = '#4fc3f7';
-            ctx.fillRect(
-                robotX + gridSize * 0.2,
-                robotY + gridSize * 0.3,
-                gridSize * 0.15,
-                gridSize * 0.15
-            );
-            ctx.fillRect(
-                robotX + gridSize * 0.65,
-                robotY + gridSize * 0.3,
-                gridSize * 0.15,
-                gridSize * 0.15
-            );
+            // Используем текстуру робота
+            if (textures.robot.complete) {
+                ctx.drawImage(textures.robot, robotX, robotY, gridSize, gridSize);
+            } else {
+                // Запасной вариант - цветной прямоугольник
+                ctx.fillStyle = COLORS.ROBOT;
+                ctx.fillRect(robotX, robotY, gridSize, gridSize);
+                
+                // Добавление деталей роботу
+                ctx.fillStyle = '#5d4037';
+                ctx.fillRect(
+                    robotX + gridSize * 0.1,
+                    robotY + gridSize * 0.1,
+                    gridSize * 0.8,
+                    gridSize * 0.8
+                );
+                
+                // Глаза робота
+                ctx.fillStyle = '#4fc3f7';
+                ctx.fillRect(
+                    robotX + gridSize * 0.2,
+                    robotY + gridSize * 0.3,
+                    gridSize * 0.15,
+                    gridSize * 0.15
+                );
+                ctx.fillRect(
+                    robotX + gridSize * 0.65,
+                    robotY + gridSize * 0.3,
+                    gridSize * 0.15,
+                    gridSize * 0.15
+                );
+            }
         }
 
         // Игровой цикл
