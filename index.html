@@ -135,14 +135,16 @@
             max-width: 600px;
         }
         
+        /* Изменения для горизонтального расположения уровней */
         .card-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
             gap: 30px;
-            max-height: 600px;
-            overflow-y: auto;
+            overflow-x: auto;
             padding: 20px;
             width: 90%;
+            max-width: 90%;
+            height: 300px;
+            align-items: center;
         }
         
         .level-card {
@@ -159,6 +161,7 @@
             transition: transform 0.3s;
             cursor: pointer;
             position: relative;
+            flex-shrink: 0; /* Предотвращает сжатие карточек */
         }
         
         .level-card:hover {
@@ -1549,13 +1552,18 @@
                 const screenX = offsetX + (enemy.x + gameState.levelOffset.x) * gridSize;
                 const screenY = offsetY + (enemy.y + gameState.levelOffset.y) * gridSize;
                 
-                // Используем текстуру врага
+                // Используем текстуру врага с увеличением в 2 раза
                 if (textures.enemy.complete) {
-                    ctx.drawImage(textures.enemy, screenX, screenY, gridSize, gridSize);
+                    // Рисуем текстуру в 2 раза больше с центром в середине клетки
+                    const size = gridSize * 2;
+                    const offset = (size - gridSize) / 2;
+                    ctx.drawImage(textures.enemy, screenX - offset, screenY - offset, size, size);
                 } else {
-                    // Запасной вариант - цветной прямоугольник
+                    // Запасной вариант - цветной прямоугольник увеличенного размера
                     ctx.fillStyle = COLORS.ENEMY;
-                    ctx.fillRect(screenX, screenY, gridSize, gridSize);
+                    const size = gridSize * 1.5;
+                    const offset = (size - gridSize) / 2;
+                    ctx.fillRect(screenX - offset, screenY - offset, size, size);
                 }
                 
                 // Отображение радиуса атаки
@@ -1576,36 +1584,44 @@
             const robotX = offsetX + (level.robot.x + gameState.levelOffset.x) * gridSize;
             const robotY = offsetY + (level.robot.y + gameState.levelOffset.y) * gridSize;
             
-            // Используем текстуру робота
+            // Используем текстуру робота с увеличением в 2 раза
             if (textures.robot.complete) {
-                ctx.drawImage(textures.robot, robotX, robotY, gridSize, gridSize);
+                // Рисуем текстуру в 2 раза больше с центром в середине клетки
+                const size = gridSize * 2;
+                const offset = (size - gridSize) / 2;
+                ctx.drawImage(textures.robot, robotX - offset, robotY - offset, size, size);
             } else {
-                // Запасной вариант - цветной прямоугольник
+                // Запасной вариант - цветной прямоугольник увеличенного размера
                 ctx.fillStyle = COLORS.ROBOT;
-                ctx.fillRect(robotX, robotY, gridSize, gridSize);
+                const size = gridSize * 1.5;
+                const offset = (size - gridSize) / 2;
+                ctx.fillRect(robotX - offset, robotY - offset, size, size);
                 
                 // Добавление деталей роботу
                 ctx.fillStyle = '#5d4037';
+                const innerSize = size * 0.8;
+                const innerOffset = (size - innerSize) / 2;
                 ctx.fillRect(
-                    robotX + gridSize * 0.1,
-                    robotY + gridSize * 0.1,
-                    gridSize * 0.8,
-                    gridSize * 0.8
+                    robotX - offset + innerOffset,
+                    robotY - offset + innerOffset,
+                    innerSize,
+                    innerSize
                 );
                 
                 // Глаза робота
                 ctx.fillStyle = '#4fc3f7';
+                const eyeSize = size * 0.15;
                 ctx.fillRect(
-                    robotX + gridSize * 0.2,
-                    robotY + gridSize * 0.3,
-                    gridSize * 0.15,
-                    gridSize * 0.15
+                    robotX - offset + size * 0.2,
+                    robotY - offset + size * 0.3,
+                    eyeSize,
+                    eyeSize
                 );
                 ctx.fillRect(
-                    robotX + gridSize * 0.65,
-                    robotY + gridSize * 0.3,
-                    gridSize * 0.15,
-                    gridSize * 0.15
+                    robotX - offset + size * 0.65,
+                    robotY - offset + size * 0.3,
+                    eyeSize,
+                    eyeSize
                 );
             }
         }
