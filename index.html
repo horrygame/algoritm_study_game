@@ -1537,9 +1537,9 @@
                 const screenX = offsetX + (obstacle.x + gameState.levelOffset.x) * gridSize;
                 const screenY = offsetY + (obstacle.y + gameState.levelOffset.y) * gridSize;
                 
-                // Используем текстуру стены
+                // Используем текстуру стены, масштабированную под размер клетки
                 if (textures.wall.complete) {
-                    // Рисуем текстуру стены
+                    // Рисуем текстуру стены точно по размеру клетки
                     ctx.drawImage(textures.wall, screenX, screenY, gridSize, gridSize);
                 } else {
                     // Запасной вариант - цветной прямоугольник
