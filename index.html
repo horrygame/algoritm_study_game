@@ -669,12 +669,14 @@
         // Текстуры персонажей
         const textures = {
             robot: new Image(),
-            enemy: new Image()
+            enemy: new Image(),
+            obstacles: new Image()
         };
 
         // Загрузка текстур
         textures.robot.src = 'white_guy.png';
         textures.enemy.src = 'red_guy.png';
+        textures.obstacles.scr = 'wall.png';
 
         // Игровое состояние
         let gameState = {
