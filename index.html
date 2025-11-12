@@ -669,12 +669,14 @@
         // Текстуры персонажей
         const textures = {
             robot: new Image(),
-            enemy: new Image()
+            enemy: new Image(),
+            wall: new Image() // Добавляем текстуру стены
         };
 
         // Загрузка текстур
         textures.robot.src = 'white_guy.png';
         textures.enemy.src = 'red_guy.png';
+        textures.wall.src = 'wall.png'; // Загружаем текстуру стены
 
         // Игровое состояние
         let gameState = {
@@ -1530,12 +1532,20 @@
                 ctx.stroke();
             }
             
-            // Отрисовка препятствий
-            ctx.fillStyle = COLORS.OBSTACLE;
+            // Отрисовка препятствий (стен)
             level.obstacles.forEach(obstacle => {
                 const screenX = offsetX + (obstacle.x + gameState.levelOffset.x) * gridSize;
                 const screenY = offsetY + (obstacle.y + gameState.levelOffset.y) * gridSize;
-                ctx.fillRect(screenX, screenY, gridSize, gridSize);
+                
+                // Используем текстуру стены
+                if (textures.wall.complete) {
+                    // Рисуем текстуру строго по центру клетки
+                    ctx.drawImage(textures.wall, screenX, screenY, gridSize, gridSize);
+                } else {
+                    // Запасной вариант - цветной прямоугольник
+                    ctx.fillStyle = COLORS.OBSTACLE;
+                    ctx.fillRect(screenX, screenY, gridSize, gridSize);
+                }
             });
             
             // Отрисовка цели
