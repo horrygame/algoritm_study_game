@@ -670,13 +670,13 @@
         const textures = {
             robot: new Image(),
             enemy: new Image(),
-            wall: new Image()  // Добавляем текстуру стены
+            wall: new Image() // Добавляем текстуру стены
         };
 
         // Загрузка текстур
         textures.robot.src = 'white_guy.png';
         textures.enemy.src = 'red_guy.png';
-        textures.wall.src = 'wall.png';  // Загружаем текстуру стены
+        textures.wall.src = 'wall.png'; // Загружаем текстуру стены
 
         // Игровое состояние
         let gameState = {
@@ -685,7 +685,7 @@
             levels: [
                 {
                     title: "Движение вперед",
-                    description: "Переместите робота к цели, using команду 'Идти вперед'",
+                    description: "Переместите робота к цели, используя команду 'Идти вперед'",
                     robot: {x: 2, y: 4},
                     target: {x: 2, y: 1},
                     enemies: [],
@@ -1532,19 +1532,16 @@
                 ctx.stroke();
             }
             
-            // Отрисовка препятствий (стен) с увеличенной текстурой в 24 раза
+            // Отрисовка препятствий (стен) с использованием текстуры
             level.obstacles.forEach(obstacle => {
                 const screenX = offsetX + (obstacle.x + gameState.levelOffset.x) * gridSize;
                 const screenY = offsetY + (obstacle.y + gameState.levelOffset.y) * gridSize;
                 
-                // Используем текстуру стены с увеличением в 24 раза
+                // Используем текстуру стены вместо коричневого квадрата
                 if (textures.wall.complete) {
-                    // Рисуем текстуру стены увеличенную в 24 раза
-                    const size = gridSize * 24; // Увеличиваем в 24 раза
-                    const offset = (size - gridSize) / 2;
-                    ctx.drawImage(textures.wall, screenX - offset, screenY - offset, size, size);
+                    ctx.drawImage(textures.wall, screenX, screenY, gridSize, gridSize);
                 } else {
-                    // Запасной вариант - цветной прямоугольник
+                    // Запасной вариант - коричневый квадрат
                     ctx.fillStyle = COLORS.OBSTACLE;
                     ctx.fillRect(screenX, screenY, gridSize, gridSize);
                 }
