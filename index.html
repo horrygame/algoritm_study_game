@@ -1541,6 +1541,9 @@
                 if (textures.wall.complete) {
                     // Рисуем текстуру стены точно по центру клетки
                     ctx.drawImage(textures.wall, screenX, screenY, gridSize, gridSize);
+                    const wallSize = gridSize * 10;
+                    const wallOffset = (wallSize - gridSize) / 2;
+                    ctx.drawImage(textures.wall, screenX - wallOffset, screenY - wallOffset, wallSize, wallSize);
                 } else {
                     // Запасной вариант - коричневый квадрат
                     ctx.fillStyle = COLORS.OBSTACLE;
