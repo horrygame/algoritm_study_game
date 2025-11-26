@@ -308,10 +308,18 @@
             display: none;
         }
         
+        /* Контейнер для заголовка с замком */
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
         h1 {
             font-size: 64px;
             color: #d7ccc8;
-            margin-bottom: 20px;
             text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
             text-align: center;
             font-weight: bold;
@@ -319,6 +327,7 @@
             text-transform: uppercase;
             border-bottom: 3px solid #8d6e63;
             padding-bottom: 10px;
+            position: relative;
         }
         
         h2 {
@@ -328,6 +337,10 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             text-align: center;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
         p {
@@ -339,11 +352,12 @@
             color: #efebe9;
         }
         
+        /* ВСЕ КНОПКИ ВЫСОТОЙ 72px */
         .button {
             background: linear-gradient(to bottom, #8d6e63, #6d4c41);
             color: #fff;
             border: none;
-            padding: 15px 30px;
+            padding: 0 30px;
             font-size: 22px;
             border-radius: 5px;
             cursor: pointer;
@@ -356,6 +370,11 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
             font-weight: bold;
             letter-spacing: 1px;
+            height: 72px; /* Фиксированная высота */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
         .button:hover {
@@ -383,6 +402,180 @@
             max-width: 600px;
         }
         
+        .parchment {
+            background: #f5e8c8;
+            color: #5d4037;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 1px solid #8d6e63;
+            max-width: 90%;
+            margin-bottom: 20px;
+        }
+        
+        .medieval-border {
+            border: 8px solid transparent;
+            border-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,100 L0,100 Z M10,10 L90,10 L90,90 L10,90 Z" fill="none" stroke="%238d6e63" stroke-width="4"/></svg>') 8 round;
+        }
+        
+        /* ОБЩИЙ СТИЛЬ ДЛЯ ВСЕХ КОНТЕЙНЕРОВ ИКОНОК */
+        .icon-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Увеличиваем контейнеры для больших иконок */
+            height: 60px;
+            width: 60px;
+            /* Смещение для выравнивания по вертикали */
+            margin-top: -2px;
+        }
+        
+        /* СТИЛИ ДЛЯ ЗАМКА - УВЕЛИЧЕННЫЙ РАЗМЕР */
+        .lock-icon {
+            position: absolute;
+            width: 48px;  /* Увеличил размер */
+            height: 48px; /* Увеличил размер */
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .lock-closed {
+            background-image: url('button_2.png');
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .lock-open {
+            background-image: url('button_1.png');
+            opacity: 0;
+            transform: scale(0.8) rotate(15deg);
+        }
+        
+        #levels-btn:hover .lock-closed {
+            opacity: 0;
+            transform: scale(0.8) rotate(-15deg);
+        }
+        
+        #levels-btn:hover .lock-open {
+            opacity: 1;
+            transform: scale(1) rotate(0);
+        }
+        
+        /* СТИЛИ ДЛЯ КНИГИ - УВЕЛИЧЕННЫЙ ВИДИМЫЙ РАЗМЕР */
+        .book-icon {
+            position: absolute;
+            /* Исходный размер 144px, но мы увеличиваем видимый размер */
+            width: 300px;
+            height: 300px;
+            /* Увеличиваем масштаб для большего видимого размера */
+            transform: scale(0.45); /* Увеличил масштаб с 0.333 до 0.45 */
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .book-closed {
+            background-image: url('kniga_2.png');
+            opacity: 1;
+        }
+        
+        .book-open {
+            background-image: url('kniga_1.png');
+            opacity: 0;
+            transform: scale(0.4) rotate(-5deg); /* Скорректировал для анимации */
+        }
+        
+        #tutorial-btn:hover .book-closed {
+            opacity: 0;
+            transform: scale(0.4) rotate(5deg); /* Скорректировал для анимации */
+        }
+        
+        #tutorial-btn:hover .book-open {
+            opacity: 1;
+            transform: scale(0.45) rotate(0); /* Скорректировал для анимации */
+        }
+        
+        /* Статические иконки для заголовков */
+        .static-icon {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .static-lock {
+            width: 60px;
+            height: 60px;
+            background: url('button_1.png') no-repeat center center;
+            background-size: contain;
+        }
+        
+        .static-book {
+            width: 60px;
+            height: 60px;
+            background: url('kniga_1.png') no-repeat center center;
+            background-size: contain;
+        }
+        
+        /* === ИЗМЕНЕНИЕ: ЗАМОК 144px И ПОДНЯТ В СУММЕ НА 132px === */
+        /* Стили для анимированного замка на заголовке */
+        .castle-icon {
+            position: absolute;
+            /* === ИЗМЕНЕНИЕ: Размер замка 144px === */
+            width: 250px;
+            height: 250px;
+            background: url('zamok.png') no-repeat center center;
+            background-size: contain;
+            /* === ИЗМЕНЕНИЕ: Поднят в сумме на 132px (было -40px) === */
+            top: -238px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-200px);
+            /* === ИЗМЕНЕНИЕ: Улучшенная анимация замка === */
+            animation: castleFlyIn 2s ease-out 0.3s forwards, castleFloat 3s ease-in-out 2.3s infinite;
+        }
+        
+        /* === ИЗМЕНЕНИЕ: Улучшенная анимация вылета замка сверху === */
+        @keyframes castleFlyIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-400px) rotate(25deg) scale(0.8);
+            }
+            40% {
+                opacity: 0.8;
+                transform: translateX(-50%) translateY(-50px) rotate(-10deg) scale(1.1);
+            }
+            70% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(20px) rotate(5deg) scale(0.95);
+            }
+            85% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(-5px) rotate(-2deg) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) rotate(0) scale(1);
+            }
+        }
+        
+        /* === ИЗМЕНЕНИЕ: Добавлена анимация плавающего замка === */
+        @keyframes castleFloat {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0) rotate(0);
+            }
+            25% {
+                transform: translateX(-50%) translateY(-8px) rotate(1deg);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-4px) rotate(-0.5deg);
+            }
+            75% {
+                transform: translateX(-50%) translateY(-6px) rotate(0.5deg);
+            }
+        }
+
         /* Изменения для горизонтального расположения уровней */
         .card-grid {
             display: flex;
@@ -451,17 +644,6 @@
             right: 10px;
             font-size: 24px;
             color: #bcaaa4;
-        }
-        
-        .parchment {
-            background: #f5e8c8;
-            color: #5d4037;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 1px solid #8d6e63;
-            max-width: 90%;
-            margin-bottom: 20px;
         }
         
         .game-ui {
@@ -718,11 +900,6 @@
             border-left: 4px solid #ffd54f;
         }
         
-        .medieval-border {
-            border: 8px solid transparent;
-            border-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,100 L0,100 Z M10,10 L90,10 L90,90 L10,90 Z" fill="none" stroke="%238d6e63" stroke-width="4"/></svg>') 8 round;
-        }
-        
         /* Новый стиль для блокировки взаимодействия */
         .blocked {
             pointer-events: none;
@@ -809,18 +986,38 @@
         
         <!-- Главное меню -->
         <div id="main-menu" class="screen">
-            <h1>🤖 Программирование Робота</h1>
+            <div class="title-container">
+                <h1>Программирование Робота
+                    <!-- === ИЗМЕНЕНИЕ: Замок теперь 144px и поднят в сумме на 132px === -->
+                    <div class="castle-icon"></div>
+                </h1>
+            </div>
             <p class="parchment">Программируйте робота для выполнения заданий на различных уровнях</p>
             
             <div class="menu-buttons">
-                <button class="button" id="levels-btn">📚 Уровни</button>
-                <button class="button" id="tutorial-btn">📖 Пособие</button>
+                <button class="button" id="levels-btn">
+                    <div class="icon-container">
+                        <div class="lock-icon lock-closed"></div>
+                        <div class="lock-icon lock-open"></div>
+                    </div>
+                    Уровни
+                </button>
+                <button class="button" id="tutorial-btn">
+                    <div class="icon-container">
+                        <div class="book-icon book-closed"></div>
+                        <div class="book-icon book-open"></div>
+                    </div>
+                    Пособие
+                </button>
             </div>
         </div>
         
         <!-- Экран уровней -->
         <div id="levels-screen" class="screen hidden">
-            <h2>📚 Уровни</h2>
+            <h2>
+                <span class="static-icon static-lock"></span>
+                Уровни
+            </h2>
             <p class="parchment">Выберите уровень для программирования робота</p>
             
             <button class="button" id="levels-back-btn">← Назад</button>
@@ -832,7 +1029,10 @@
         
         <!-- Экран пособия -->
         <div id="tutorial-screen" class="screen hidden">
-            <h2>📖 Пособие</h2>
+            <h2>
+                <span class="static-icon static-book"></span>
+                Пособие
+            </h2>
             
             <button class="button" id="tutorial-back-btn">← Назад</button>
             
