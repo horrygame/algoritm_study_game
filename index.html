@@ -992,7 +992,7 @@
         }
         
         .icon-robot { background-image: url('white_guy.png'); }
-        .icon-target { background-image: url('zamok.png'); } /* Заменили на замок */
+        .icon-target { background-image: url('zamok.png'); }
         .icon-enemy { background-image: url('red_guy.png'); }
         .icon-wall { background-image: url('wall.png'); }
         
@@ -1252,7 +1252,6 @@
                         <button class="workshop-button" id="save-level-btn">💾 Сохранить уровень</button>
                         <button class="workshop-button" id="load-level-btn">📂 Загрузить</button>
                         <button class="workshop-button" id="delete-level-btn">🗑️ Удалить</button>
-                        <!-- Новые кнопки экспорта/импорта -->
                         <button class="workshop-button" id="export-levels-btn">📤 Экспорт</button>
                         <button class="workshop-button" id="import-levels-btn">📥 Импорт</button>
                         <input type="file" id="import-file" accept=".json" style="display: none;">
@@ -1302,7 +1301,7 @@
             <button class="button" id="levels-menu-btn">К выбору уровней</button>
         </div>
         
-        <!-- Результат неудачи (обычный провал) -->
+        <!-- Результат неудачи -->
         <div id="game-fail" class="game-result hidden">
             <h2 id="fail-title">ПОПРОБУЙТЕ СНОВА</h2>
             <p id="fail-message">Робот не достиг цели. Попробуйте другую программу.</p>
@@ -1364,11 +1363,132 @@
             currentScreen: 'main_menu',
             currentLevel: 0,
             levels: [
-                // ... (10 базовых уровней, как в предыдущей версии, для краткости оставлю заглушку, 
-                // в реальном коде они должны быть полностью описаны, как ранее)
-                { title: "Уровень 1", description: "Описание", robot: {x:2,y:4}, target: {x:2,y:1}, enemies:[], obstacles:[], completed:false, unlocked:true },
-                { title: "Уровень 2", description: "Описание", robot: {x:1,y:4}, target: {x:5,y:4}, enemies:[], obstacles:[{x:3,y:4}], completed:false, unlocked:false },
-                // ... (остальные 8 уровней)
+                {
+                    title: "Движение вверх",
+                    description: "Переместите робота к цели, используя команду 'Вверх'",
+                    robot: {x: 2, y: 4},
+                    target: {x: 2, y: 1},
+                    enemies: [],
+                    obstacles: [],
+                    program: [],
+                    completed: false,
+                    unlocked: true
+                },
+                {
+                    title: "Обход препятствия",
+                    description: "Обойдите препятствие, чтобы добраться до цели",
+                    robot: {x: 1, y: 4},
+                    target: {x: 5, y: 4},
+                    enemies: [],
+                    obstacles: [{x: 3, y: 4}],
+                    program: [],
+                    completed: false,
+                    unlocked: false
+                },
+                {
+                    title: "Движение в разных направлениях",
+                    description: "Используйте команды движения в разных направлениях",
+                    robot: {x: 1, y: 1},
+                    target: {x: 5, y: 5},
+                    enemies: [],
+                    obstacles: [],
+                    program: [],
+                    completed: false,
+                    unlocked: false
+                },
+                {
+                    title: "Первая атака",
+                    description: "Атакуйте врага, чтобы очистить путь к цели",
+                    robot: {x: 1, y: 3},
+                    target: {x: 5, y: 3},
+                    enemies: [{x: 3, y: 3}],
+                    obstacles: [],
+                    program: [],
+                    completed: false,
+                    unlocked: false
+                },
+                {
+                    title: "Комбинированное движение",
+                    description: "Сочетайте разные команды движения для достижения цели",
+                    robot: {x: 1, y: 5},
+                    target: {x: 7, y: 1},
+                    enemies: [],
+                    obstacles: [{x: 3, y: 3}, {x: 4, y: 4}],
+                    program: [],
+                    completed: false,
+                    unlocked: false
+                },
+                {
+                    title: "Множественные враги",
+                    description: "Уничтожьте всех врагов на пути к цели",
+                    robot: {x: 1, y: 3},
+                    target: {x: 7, y: 3},
+                    enemies: [{x: 3, y: 3}, {x: 5, y: 3}],
+                    obstacles: [],
+                    program: [],
+                    completed: false,
+                    unlocked: false
+                },
+                {
+                    title: "Лабиринт",
+                    description: "Найдите путь через лабиринт к цели",
+                    robot: {x: 1, y: 1},
+                    target: {x: 7, y: 5},
+                    enemies: [],
+                    obstacles: [
+                        {x: 2, y: 1}, {x: 3, y: 1}, {x: 4, y: 1}, {x: 5, y: 1}, {x: 6, y: 1},
+                        {x: 1, y: 2}, {x: 5, y: 2}, {x: 7, y: 2},
+                        {x: 1, y: 3}, {x: 3, y: 3}, {x: 5, y: 3}, {x: 7, y: 3},
+                        {x: 1, y: 4}, {x: 3, y: 4},
+                        {x: 3, y: 5}, {x: 4, y: 5}, {x: 5, y: 5}, {x: 6, y: 5}
+                    ],
+                    program: [],
+                    completed: false,
+                    unlocked: false
+                },
+                {
+                    title: "Тактическая атака",
+                    description: "Подойдите к врагу с правильной стороны для атаки",
+                    robot: {x: 1, y: 3},
+                    target: {x: 7, y: 3},
+                    enemies: [{x: 4, y: 3}],
+                    obstacles: [{x: 3, y: 3}, {x: 4, y: 2}, {x: 4, y: 4}],
+                    program: [],
+                    completed: false,
+                    unlocked: false
+                },
+                {
+                    title: "Сложный маршрут",
+                    description: "Составьте сложную программу для достижения цели",
+                    robot: {x: 1, y: 5},
+                    target: {x: 7, y: 1},
+                    enemies: [{x: 3, y: 3}, {x: 5, y: 3}],
+                    obstacles: [
+                        {x: 2, y: 2}, {x: 2, y: 3}, {x: 2, y: 4},
+                        {x: 4, y: 1}, {x: 4, y: 2}, {x: 4, y: 4}, {x: 4, y: 5},
+                        {x: 6, y: 2}, {x: 6, y: 3}, {x: 6, y: 4}
+                    ],
+                    program: [],
+                    completed: false,
+                    unlocked: false
+                },
+                {
+                    title: "Финальное испытание",
+                    description: "Примените все полученные навыки в сложном уровне",
+                    robot: {x: 1, y: 1},
+                    target: {x: 9, y: 5},
+                    enemies: [{x: 3, y: 2}, {x: 5, y: 3}, {x: 7, y: 3}],
+                    obstacles: [
+                        {x: 3, y: 1}, {x: 4, y: 1}, {x: 5, y: 1}, {x: 6, y: 1}, {x: 7, y: 1}, {x: 8, y: 1},
+                        {x: 1, y: 2}, {x: 4, y: 2}, {x: 6, y: 2}, {x: 8, y: 2}, {x: 9, y: 2},
+                        {x: 1, y: 3}, {x: 2, y: 3}, {x: 4, y: 3}, {x: 6, y: 3}, {x: 8, y: 3},
+                        {x: 1, y: 4}, {x: 2, y: 4}, {x: 3, y: 4}, {x: 4, y: 4}, {x: 6, y: 4}, {x: 8, y: 4},
+                        {x: 1, y: 5}, {x: 3, y: 5}, {x: 8, y: 5}
+                    ],
+                    program: [],
+                    completed: false,
+                    unlocked: false
+                }
             ],
             userLevels: [],
             program: [],
@@ -1383,8 +1503,8 @@
             totalCommandSteps: 0
         };
 
-        // (Для краткости здесь не привожу полностью все 10 уровней, но в рабочем коде они должны быть,
-        // как в предыдущих версиях. Пользователь может вставить их из предыдущего ответа.)
+        // Сохраняем начальные состояния уровней
+        let initialLevelStates = [];
 
         // ========== СОСТОЯНИЕ МАСТЕРСКОЙ ==========
         let workshopState = {
@@ -1430,7 +1550,6 @@
             saveLevel: document.getElementById('save-level-btn'),
             loadLevel: document.getElementById('load-level-btn'),
             deleteLevel: document.getElementById('delete-level-btn'),
-            // Новые кнопки
             exportLevels: document.getElementById('export-levels-btn'),
             importLevels: document.getElementById('import-levels-btn'),
             editAlgorithmFail: document.getElementById('edit-algorithm-fail-btn'),
@@ -1499,10 +1618,8 @@
                 try {
                     const imported = JSON.parse(e.target.result);
                     if (Array.isArray(imported)) {
-                        // Добавляем импортированные уровни к существующим
                         gameState.userLevels.push(...imported);
                         saveUserLevels();
-                        // Обновляем основные уровни
                         gameState.levels = gameState.levels.filter(l => !l.isUserLevel);
                         gameState.levels.push(...gameState.userLevels);
                         alert(`Импортировано ${imported.length} уровней.`);
@@ -1519,9 +1636,6 @@
         // ========== ИНИЦИАЛИЗАЦИЯ МАСТЕРСКОЙ ==========
         function initWorkshop() {
             if (!workshopCanvas) return;
-            
-            workshopCanvas.width = window.innerWidth;
-            workshopCanvas.height = window.innerHeight;
             
             workshopCanvas.addEventListener('mousedown', handleWorkshopClick);
             workshopCanvas.addEventListener('contextmenu', (e) => e.preventDefault());
@@ -1542,13 +1656,12 @@
             if (buttons.loadLevel) buttons.loadLevel.addEventListener('click', loadWorkshopLevel);
             if (buttons.deleteLevel) buttons.deleteLevel.addEventListener('click', deleteWorkshopLevel);
             
-            // Обработчики экспорта/импорта
             if (buttons.exportLevels) buttons.exportLevels.addEventListener('click', exportLevels);
             if (buttons.importLevels) buttons.importLevels.addEventListener('click', () => importFileInput.click());
             if (importFileInput) importFileInput.addEventListener('change', (e) => {
                 if (e.target.files.length > 0) {
                     importLevelsFromFile(e.target.files[0]);
-                    e.target.value = ''; // сброс
+                    e.target.value = '';
                 }
             });
         }
@@ -1635,7 +1748,6 @@
             select.value = '';
         }
 
-        // ========== ОБРАБОТКА КЛИКА В МАСТЕРСКОЙ ==========
         function handleWorkshopClick(e) {
             const rect = workshopCanvas.getBoundingClientRect();
             const scaleX = workshopCanvas.width / rect.width;
@@ -1649,7 +1761,7 @@
             
             if (gridX < 0 || gridX >= GRID_WIDTH || gridY < 0 || gridY >= GRID_HEIGHT) return;
             
-            if (e.button === 2) { // правый клик - удаление
+            if (e.button === 2) {
                 const current = workshopState.grid[gridY][gridX];
                 if (current === 'robot') workshopState.robot = null;
                 if (current === 'target') workshopState.target = null;
@@ -1666,7 +1778,6 @@
             
             const obj = workshopState.selectedObject;
             
-            // Проверка уникальности для робота и цели
             if (obj === 'robot' && workshopState.robot) {
                 const oldRobot = workshopState.robot;
                 if (oldRobot) workshopState.grid[oldRobot.y][oldRobot.x] = null;
@@ -1701,14 +1812,12 @@
             renderWorkshop();
         }
 
-        // ========== РЕНДЕР МАСТЕРСКОЙ ==========
         function renderWorkshop() {
             if (!workshopCtx || !workshopCanvas) return;
             
             workshopCtx.fillStyle = COLORS.BACKGROUND;
             workshopCtx.fillRect(0, 0, workshopCanvas.width, workshopCanvas.height);
             
-            // Сетка
             workshopCtx.strokeStyle = COLORS.GRID;
             workshopCtx.lineWidth = 1;
             for (let x = 0; x <= GRID_WIDTH; x++) {
@@ -1726,7 +1835,6 @@
                 workshopCtx.stroke();
             }
             
-            // Объекты
             for (let y = 0; y < GRID_HEIGHT; y++) {
                 for (let x = 0; x < GRID_WIDTH; x++) {
                     const obj = workshopState.grid[y][x];
@@ -1748,7 +1856,6 @@
                             break;
                         case 'target':
                             if (images.zamok.complete) {
-                                // Рисуем замок точно в размер клетки
                                 workshopCtx.drawImage(images.zamok, screenX, screenY, gridSize, gridSize);
                             } else {
                                 workshopCtx.fillStyle = COLORS.TARGET;
@@ -1778,10 +1885,7 @@
             }
         }
 
-        // ========== ОСНОВНЫЕ ФУНКЦИИ ИГРЫ ==========
-        // (showScreen, renderLevelsScreen, startLevel, и т.д. - аналогичны предыдущим версиям,
-        //  но с заменой цели на zamok.png в renderGame)
-        
+        // ========== ФУНКЦИИ ОСНОВНОЙ ИГРЫ ==========
         function showScreen(screenName) {
             Object.values(screens).forEach(s => s && s.classList.add('hidden'));
             gameUI.classList.add('hidden');
@@ -1830,122 +1934,53 @@
             });
         }
 
-        function startLevel(levelIndex) {
-            if (!gameState.levels[levelIndex].unlocked) return;
-            gameState.currentLevel = levelIndex;
-            const level = gameState.levels[levelIndex];
+        function calculateLevelOffset(level) {
+            const objects = [
+                level.robot,
+                level.target,
+                ...level.enemies,
+                ...level.obstacles
+            ];
             
-            // Сброс уровня (кроме программы, программу сохраняем? При старте уровня обычно сбрасываем)
-            // Здесь мы не трогаем program, потому что хотим сохранить её при правке алгоритма.
-            // Но при обычном старте уровня нужно сбросить позицию робота и врагов.
-            // Для этого нужна функция resetLevelState, которая восстанавливает начальное состояние,
-            // но не трогает program. У нас пока нет сохранения начального состояния отдельно.
-            // В предыдущих версиях resetLevelState сбрасывала всё, включая program.
-            // Чтобы кнопка "Править алгоритм" работала, нужно, чтобы при повторном входе в уровень
-            // программа не сбрасывалась. Однако, при старте уровня из меню уровней мы хотим чистый уровень.
-            // Поэтому resetLevelState должен сбрасывать позиции, но сохранять program? Нет, program должна быть пустой при новом уровне.
-            // Для "Править алгоритм" мы не вызываем startLevel, а просто убираем блокировку.
-            // Поэтому здесь оставим как есть: при старте уровня сбрасываем всё.
-            // Но нужно создать функцию, которая сбрасывает только положение объектов (робота, врагов) без изменения program.
-            // Для простоты реализуем так: при старте уровня сбрасываем полностью (program = []),
-            // а при правке алгоритма не вызываем startLevel, а просто закрываем окно.
+            let minX = GRID_WIDTH, maxX = 0;
+            let minY = GRID_HEIGHT, maxY = 0;
             
-            resetLevelState(levelIndex); // в этой функции нужно сбросить только позиции, а program оставить? Пока она сбрасывает program. Исправим.
-            // Переопределим resetLevelState: будем сбрасывать позиции из сохранённого начального состояния.
-            // Для этого нужно где-то хранить начальные состояния уровней. У нас есть массив initialLevelStates? Его нужно создать.
-            // В предыдущей версии был initialLevelStates, но здесь мы его не включили для краткости.
-            // Для работоспособности кода нужно либо добавить его, либо упростить: при правке алгоритма не сбрасывать уровень.
-            // Сделаем так: при правке алгоритма вызываем функцию continueEditing(), которая просто убирает окна и блокировку.
-            // При нажатии "Повторить уровень" - сбрасываем позиции (робот на старт, враги восстанавливаются), программу оставляем? Или тоже сбрасываем?
-            // Логичнее: "Повторить уровень" - возвращает робота и врагов в исходное состояние, но программу оставляет (чтобы можно было исправить). 
-            // А "Сброс программы" очищает программу. 
-            // Но в текущей реализации retryLevel вызывает resetLevelState, который сбрасывает и программу. Нужно разделить.
-            // Создадим функцию resetLevelPositions(), которая восстанавливает только координаты из начального состояния.
-            // А resetProgram очищает программу.
-            
-            // Для простоты и соответствия заданию, я изменю логику:
-            // - При нажатии "Повторить уровень" в окне провала: сбрасываются только позиции объектов (робот на старт, враги восстанавливаются), программа остаётся.
-            // - При нажатии "Править алгоритм": просто закрывается окно, ничего не сбрасывается.
-            // - Кнопка "Сброс программы" в интерфейсе очищает программу.
-            
-            // Для этого нужно хранить начальные состояния уровней. Создадим массив initialLevelStates при загрузке.
-            
-            // Ниже будет реализация с учётом этого.
-        }
-
-        // ========== НОВАЯ ФУНКЦИЯ ДЛЯ ПРОДОЛЖЕНИЯ РЕДАКТИРОВАНИЯ ==========
-        function continueEditing() {
-            gameFailElement.classList.add('hidden');
-            enemyCollisionElement.classList.add('hidden');
-            gameUI.classList.remove('blocked');
-            programmingArea.classList.remove('blocked');
-            // Не сбрасываем программу и не меняем положение объектов
-        }
-
-        // ========== ОБНОВЛЁННАЯ ФУНКЦИЯ RETRY ==========
-        function retryLevel() {
-            // Сбрасываем только позиции робота и врагов, программу оставляем
-            const level = gameState.levels[gameState.currentLevel];
-            if (level && initialLevelStates[gameState.currentLevel]) {
-                const initial = initialLevelStates[gameState.currentLevel];
-                level.robot = { ...initial.robot };
-                level.enemies = initial.enemies.map(e => ({ ...e }));
-                // Препятствия не меняются
-            }
-            gameFailElement.classList.add('hidden');
-            enemyCollisionElement.classList.add('hidden');
-            gameUI.classList.remove('blocked');
-            programmingArea.classList.remove('blocked');
-        }
-
-        // Для корректной работы нужен массив initialLevelStates. Создадим его при инициализации.
-        let initialLevelStates = [];
-
-        function initGame() {
-            // Сохраняем начальные состояния уровней
-            gameState.levels.forEach((level, index) => {
-                initialLevelStates[index] = {
-                    robot: { ...level.robot },
-                    enemies: level.enemies.map(e => ({ ...e })),
-                    obstacles: level.obstacles.map(o => ({ ...o }))
-                };
+            objects.forEach(obj => {
+                minX = Math.min(minX, obj.x);
+                maxX = Math.max(maxX, obj.x);
+                minY = Math.min(minY, obj.y);
+                maxY = Math.max(maxY, obj.y);
             });
-
-            loadUserLevels();
-            gameState.levels = gameState.levels.concat(gameState.userLevels);
             
-            setupButtons();
-            setupDragAndDrop();
-            window.addEventListener('resize', handleResize);
-            handleResize();
+            const levelCenterX = (minX + maxX) / 2;
+            const levelCenterY = (minY + maxY) / 2;
+            const gridCenterX = GRID_WIDTH / 2;
+            const gridCenterY = GRID_HEIGHT / 2;
             
-            if (screens.workshop) initWorkshop();
-            
-            gameLoop();
+            gameState.levelOffset = {
+                x: Math.round(gridCenterX - levelCenterX),
+                y: Math.round(gridCenterY - levelCenterY)
+            };
         }
 
-        // Переопределим resetLevelState, чтобы он не трогал program
         function resetLevelState(levelIndex) {
-            // Восстанавливаем позиции из initial
             if (initialLevelStates[levelIndex]) {
                 const level = gameState.levels[levelIndex];
                 const initial = initialLevelStates[levelIndex];
                 level.robot = { ...initial.robot };
                 level.enemies = initial.enemies.map(e => ({ ...e }));
-                // obstacles не меняются
             }
-            gameState.program = []; // при старте уровня программу сбрасываем (если нужно, можно оставить)
+            gameState.program = [];
             gameState.isRunning = false;
             gameState.currentStep = 0;
             gameState.currentCommandSteps = 0;
             gameState.totalCommandSteps = 0;
         }
 
-        // В функции startLevel вызываем resetLevelState, который сбросит позиции и программу.
         function startLevel(levelIndex) {
             if (!gameState.levels[levelIndex].unlocked) return;
             gameState.currentLevel = levelIndex;
-            resetLevelState(levelIndex); // сброс позиций и программы
+            resetLevelState(levelIndex);
             calculateLevelOffset(gameState.levels[levelIndex]);
             currentLevelElement.textContent = levelIndex + 1;
             currentTaskElement.textContent = gameState.levels[levelIndex].description;
@@ -1953,7 +1988,323 @@
             setupProgramSlots();
         }
 
-        // ========== РЕНДЕР ИГРЫ (С ЗАМКОМ) ==========
+        function setupProgramSlots() {
+            programSlots.innerHTML = '';
+            for (let i = 0; i < 20; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'program-slot';
+                slot.textContent = i + 1;
+                slot.dataset.index = i;
+                
+                slot.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    slot.classList.add('highlight');
+                });
+                
+                slot.addEventListener('dragleave', () => {
+                    slot.classList.remove('highlight');
+                });
+                
+                slot.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    slot.classList.remove('highlight');
+                    
+                    try {
+                        const commandData = JSON.parse(e.dataTransfer.getData('text/plain'));
+                        const source = e.dataTransfer.getData('source');
+                        const targetIndex = parseInt(slot.dataset.index);
+                        
+                        if (source === 'panel') {
+                            if (!gameState.program[targetIndex]) {
+                                gameState.program[targetIndex] = commandData;
+                            }
+                        } else if (source === 'slot') {
+                            if (gameState.draggedBlockIndex !== null && gameState.draggedBlockIndex !== targetIndex) {
+                                const temp = gameState.program[targetIndex];
+                                gameState.program[targetIndex] = gameState.program[gameState.draggedBlockIndex];
+                                gameState.program[gameState.draggedBlockIndex] = temp;
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Drop error:', error);
+                    }
+                    
+                    updateProgramSlots();
+                });
+                
+                programSlots.appendChild(slot);
+            }
+            updateProgramSlots();
+        }
+
+        function updateProgramSlots() {
+            const slots = document.querySelectorAll('.program-slot');
+            slots.forEach((slot, index) => {
+                const commandData = gameState.program[index];
+                slot.innerHTML = '';
+                slot.textContent = index + 1;
+                slot.classList.remove('filled');
+                
+                if (commandData) {
+                    const block = document.createElement('div');
+                    block.className = 'program-block';
+                    
+                    const commandText = document.createElement('div');
+                    commandText.textContent = getCommandText(commandData);
+                    block.appendChild(commandText);
+                    
+                    if (commandData.command !== 'attack') {
+                        const stepsContainer = document.createElement('div');
+                        stepsContainer.className = 'steps-input-container';
+                        
+                        const stepsInput = document.createElement('input');
+                        stepsInput.type = 'number';
+                        stepsInput.className = 'steps-input';
+                        stepsInput.min = 1;
+                        stepsInput.max = 99;
+                        stepsInput.value = commandData.steps || 1;
+                        stepsInput.addEventListener('change', (e) => {
+                            const value = parseInt(e.target.value);
+                            if (value >= 1 && value <= 99) {
+                                commandData.steps = value;
+                            } else {
+                                e.target.value = commandData.steps;
+                            }
+                        });
+                        
+                        const stepsLabel = document.createElement('span');
+                        stepsLabel.className = 'steps-label';
+                        stepsLabel.textContent = 'кл';
+                        
+                        stepsContainer.appendChild(stepsInput);
+                        stepsContainer.appendChild(stepsLabel);
+                        block.appendChild(stepsContainer);
+                    }
+                    
+                    block.draggable = true;
+                    block.dataset.index = index;
+                    
+                    block.addEventListener('dragstart', (e) => {
+                        e.dataTransfer.setData('text/plain', JSON.stringify(commandData));
+                        e.dataTransfer.setData('source', 'slot');
+                        gameState.draggedBlockIndex = index;
+                    });
+                    
+                    const deleteBtn = document.createElement('div');
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.textContent = '×';
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        gameState.program[index] = null;
+                        updateProgramSlots();
+                    });
+                    
+                    block.appendChild(deleteBtn);
+                    slot.appendChild(block);
+                    slot.classList.add('filled');
+                }
+            });
+        }
+
+        function getCommandText(commandData) {
+            const commandTexts = {
+                'up': 'Вверх',
+                'down': 'Вниз',
+                'right': 'Вправо',
+                'left': 'Влево',
+                'attack': 'Атака'
+            };
+            return commandTexts[commandData.command] || commandData.command;
+        }
+
+        function setupDragAndDrop() {
+            const commands = document.querySelectorAll('.command');
+            commands.forEach(command => {
+                command.addEventListener('dragstart', (e) => {
+                    const commandData = {
+                        command: command.getAttribute('data-command'),
+                        steps: 1
+                    };
+                    e.dataTransfer.setData('text/plain', JSON.stringify(commandData));
+                    e.dataTransfer.setData('source', 'panel');
+                });
+            });
+            
+            deleteZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                deleteZone.classList.add('highlight');
+            });
+            
+            deleteZone.addEventListener('dragleave', () => {
+                deleteZone.classList.remove('highlight');
+            });
+            
+            deleteZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                deleteZone.classList.remove('highlight');
+                const source = e.dataTransfer.getData('source');
+                if (source === 'slot' && gameState.draggedBlockIndex !== null) {
+                    gameState.program[gameState.draggedBlockIndex] = null;
+                    updateProgramSlots();
+                }
+            });
+        }
+
+        function runProgram() {
+            if (gameState.isRunning || !gameState.program.some(cmd => cmd)) return;
+            gameState.isRunning = true;
+            gameState.currentStep = 0;
+            gameState.currentCommandSteps = 0;
+            gameState.totalCommandSteps = 0;
+            executeNextStep();
+        }
+
+        function executeNextStep() {
+            if (!gameState.isRunning) return;
+            
+            if (gameState.currentCommandSteps < gameState.totalCommandSteps) {
+                performMovementStep();
+                gameState.currentCommandSteps++;
+                if (gameState.currentCommandSteps >= gameState.totalCommandSteps) {
+                    gameState.currentStep++;
+                    gameState.currentCommandSteps = 0;
+                    gameState.totalCommandSteps = 0;
+                }
+                setTimeout(executeNextStep, 300);
+                return;
+            }
+            
+            if (gameState.currentStep >= gameState.program.length) {
+                gameState.isRunning = false;
+                checkGameResult();
+                return;
+            }
+            
+            const commandData = gameState.program[gameState.currentStep];
+            if (!commandData) {
+                gameState.currentStep++;
+                setTimeout(executeNextStep, 100);
+                return;
+            }
+            
+            if (commandData.command === 'attack') {
+                const level = gameState.levels[gameState.currentLevel];
+                const enemyIndex = level.enemies.findIndex(enemy => 
+                    Math.abs(enemy.x - level.robot.x) <= 1 && 
+                    Math.abs(enemy.y - level.robot.y) <= 1
+                );
+                if (enemyIndex !== -1) {
+                    level.enemies.splice(enemyIndex, 1);
+                }
+                gameState.currentStep++;
+                setTimeout(executeNextStep, 500);
+            } else {
+                gameState.totalCommandSteps = commandData.steps || 1;
+                gameState.currentCommandSteps = 0;
+                executeNextStep();
+            }
+        }
+
+        function performMovementStep() {
+            const commandData = gameState.program[gameState.currentStep];
+            const level = gameState.levels[gameState.currentLevel];
+            
+            let newX = level.robot.x;
+            let newY = level.robot.y;
+            
+            switch (commandData.command) {
+                case 'up': newY--; break;
+                case 'down': newY++; break;
+                case 'right': newX++; break;
+                case 'left': newX--; break;
+            }
+            
+            if (newX >= 0 && newX < GRID_WIDTH && newY >= 0 && newY < GRID_HEIGHT) {
+                if (!level.obstacles.some(obs => obs.x === newX && obs.y === newY)) {
+                    level.robot.x = newX;
+                    level.robot.y = newY;
+                }
+            }
+            
+            if (level.enemies.some(enemy => enemy.x === level.robot.x && enemy.y === level.robot.y)) {
+                gameState.isRunning = false;
+                document.getElementById('enemy-title').textContent = 'СТОЛКНОВЕНИЕ С ВРАГОМ!';
+                document.getElementById('enemy-message').textContent = 'Робот столкнулся с врагом и был уничтожен.';
+                enemyCollisionElement.classList.remove('hidden');
+                gameUI.classList.add('blocked');
+                programmingArea.classList.add('blocked');
+            }
+        }
+
+        function checkGameResult() {
+            const level = gameState.levels[gameState.currentLevel];
+            const isOnTarget = level.robot.x === level.target.x && level.robot.y === level.target.y;
+            const allEnemiesDefeated = level.enemies.length === 0;
+            
+            if (isOnTarget && allEnemiesDefeated) {
+                gameState.gameResult = 'win';
+                showGameResult(true);
+                level.completed = true;
+                if (gameState.currentLevel < gameState.levels.length - 1) {
+                    gameState.levels[gameState.currentLevel + 1].unlocked = true;
+                }
+            } else if (isOnTarget && !allEnemiesDefeated) {
+                gameState.gameResult = 'lose';
+                document.getElementById('fail-title').textContent = 'ВРАГИ НЕ УНИЧТОЖЕНЫ!';
+                document.getElementById('fail-message').textContent = 'Робот достиг цели, но не все враги уничтожены.';
+                showGameResult(false);
+            } else {
+                gameState.gameResult = 'lose';
+                showGameResult(false);
+            }
+        }
+
+        function showGameResult(isWin) {
+            gameUI.classList.add('blocked');
+            programmingArea.classList.add('blocked');
+            if (isWin) {
+                document.getElementById('result-title').textContent = 'УРОВЕНЬ ПРОЙДЕН!';
+                document.getElementById('result-message').textContent = 'Поздравляем! Вы успешно запрограммировали робота.';
+                gameResultElement.classList.remove('hidden');
+            } else {
+                gameFailElement.classList.remove('hidden');
+            }
+        }
+
+        function continueEditing() {
+            gameFailElement.classList.add('hidden');
+            enemyCollisionElement.classList.add('hidden');
+            gameUI.classList.remove('blocked');
+            programmingArea.classList.remove('blocked');
+        }
+
+        function retryLevel() {
+            const level = gameState.levels[gameState.currentLevel];
+            if (level && initialLevelStates[gameState.currentLevel]) {
+                const initial = initialLevelStates[gameState.currentLevel];
+                level.robot = { ...initial.robot };
+                level.enemies = initial.enemies.map(e => ({ ...e }));
+            }
+            gameFailElement.classList.add('hidden');
+            enemyCollisionElement.classList.add('hidden');
+            gameUI.classList.remove('blocked');
+            programmingArea.classList.remove('blocked');
+        }
+
+        function nextLevel() {
+            gameResultElement.classList.add('hidden');
+            if (gameState.currentLevel < gameState.levels.length - 1) {
+                startLevel(gameState.currentLevel + 1);
+            } else {
+                showScreen('levels');
+            }
+        }
+
+        function resetProgram() {
+            gameState.program = [];
+            updateProgramSlots();
+        }
+
         function renderGame() {
             if (!ctx || gameState.currentScreen !== 'game') return;
             
@@ -1963,7 +2314,6 @@
             const level = gameState.levels[gameState.currentLevel];
             if (!level) return;
             
-            // Сетка
             ctx.strokeStyle = COLORS.GRID;
             ctx.lineWidth = 1;
             for (let x = 0; x <= GRID_WIDTH; x++) {
@@ -1981,7 +2331,6 @@
                 ctx.stroke();
             }
             
-            // Препятствия (стены)
             level.obstacles.forEach(obstacle => {
                 const screenX = offsetX + (obstacle.x + gameState.levelOffset.x) * gridSize;
                 const screenY = offsetY + (obstacle.y + gameState.levelOffset.y) * gridSize;
@@ -1993,7 +2342,6 @@
                 }
             });
             
-            // Цель - замок
             const targetX = offsetX + (level.target.x + gameState.levelOffset.x) * gridSize;
             const targetY = offsetY + (level.target.y + gameState.levelOffset.y) * gridSize;
             if (images.zamok.complete) {
@@ -2006,7 +2354,6 @@
                 ctx.strokeRect(targetX + 5, targetY + 5, gridSize - 10, gridSize - 10);
             }
             
-            // Враги
             level.enemies.forEach(enemy => {
                 const screenX = offsetX + (enemy.x + gameState.levelOffset.x) * gridSize;
                 const screenY = offsetY + (enemy.y + gameState.levelOffset.y) * gridSize;
@@ -2020,7 +2367,6 @@
                 }
             });
             
-            // Робот
             const robotX = offsetX + (level.robot.x + gameState.levelOffset.x) * gridSize;
             const robotY = offsetY + (level.robot.y + gameState.levelOffset.y) * gridSize;
             if (images.robot.complete) {
@@ -2033,8 +2379,22 @@
             }
         }
 
-        // Остальные функции (setupButtons, setupDragAndDrop, program slots, runProgram и т.д.)
-        // остаются как в предыдущей версии, только нужно добавить обработчики для новых кнопок.
+        function handleResize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            if (workshopCanvas) {
+                workshopCanvas.width = window.innerWidth;
+                workshopCanvas.height = window.innerHeight;
+            }
+            gameAreaHeight = window.innerHeight - (programmingArea ? programmingArea.offsetHeight : 0);
+            gridSize = Math.min(
+                window.innerWidth / GRID_WIDTH,
+                (gameAreaHeight || window.innerHeight) / GRID_HEIGHT
+            );
+            offsetX = (window.innerWidth - GRID_WIDTH * gridSize) / 2;
+            offsetY = ((gameAreaHeight || window.innerHeight) - GRID_HEIGHT * gridSize) / 2;
+            if (workshopState && workshopCtx) renderWorkshop();
+        }
 
         function setupButtons() {
             buttons.levels.addEventListener('click', () => showScreen('levels'));
@@ -2045,7 +2405,7 @@
             buttons.tutorialBack.addEventListener('click', () => showScreen('main_menu'));
             if (buttons.workshopBack) buttons.workshopBack.addEventListener('click', () => showScreen('main_menu'));
             buttons.gameBack.addEventListener('click', () => {
-                resetLevelState(gameState.currentLevel); // сброс позиций и программы
+                resetLevelState(gameState.currentLevel);
                 showScreen('levels');
             });
             
@@ -2070,26 +2430,187 @@
                 showScreen('levels');
             });
             
-            // Новые кнопки "Править алгоритм"
-            if (buttons.editAlgorithmFail) {
-                buttons.editAlgorithmFail.addEventListener('click', continueEditing);
-            }
-            if (buttons.editAlgorithmEnemy) {
-                buttons.editAlgorithmEnemy.addEventListener('click', continueEditing);
-            }
+            if (buttons.editAlgorithmFail) buttons.editAlgorithmFail.addEventListener('click', continueEditing);
+            if (buttons.editAlgorithmEnemy) buttons.editAlgorithmEnemy.addEventListener('click', continueEditing);
         }
 
-        // Функции runProgram, executeNextStep, и т.д. - без изменений (как в предыдущем ответе)
-        // Для краткости они не включены, но в рабочем коде должны быть.
+        function gameLoop() {
+            if (gameState.currentScreen === 'game') {
+                renderGame();
+            }
+            requestAnimationFrame(gameLoop);
+        }
 
-        // ========== ЗАПУСК ==========
+        function initGame() {
+            // Сохраняем начальные состояния уровней
+            gameState.levels.forEach((level, index) => {
+                initialLevelStates[index] = {
+                    robot: { ...level.robot },
+                    enemies: level.enemies.map(e => ({ ...e })),
+                    obstacles: level.obstacles.map(o => ({ ...o }))
+                };
+            });
+
+            loadUserLevels();
+            gameState.levels = gameState.levels.concat(gameState.userLevels);
+            
+            setupButtons();
+            setupDragAndDrop();
+            window.addEventListener('resize', handleResize);
+            handleResize();
+            
+            if (screens.workshop) initWorkshop();
+            
+            gameLoop();
+        }
+
+        // ========== АНИМАЦИЯ ЗАГРУЗКИ ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // ... (анимация загрузки, как ранее)
-            // В конце вызываем initGame()
+            const cursor = document.getElementById('cursor');
+            const cursorBackup = document.getElementById('cursor-backup');
+            const loadButton = document.getElementById('load-button');
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercent = document.getElementById('progress-percent');
+            const progressContainer = document.getElementById('progress-container');
+            const loadingMessage = document.getElementById('loading-message');
+            
+            let cursorX = -100;
+            let cursorY = window.innerHeight / 2;
+            
+            const buttonRect = loadButton.getBoundingClientRect();
+            const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+            const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+            
+            function showLoadingElements() {
+                progressContainer.classList.add('show-loading');
+                loadingMessage.classList.add('show-loading');
+            }
+            
+            function moveCursorTo(x, y, duration, callback) {
+                cursor.style.opacity = '1';
+                cursorBackup.style.opacity = '1';
+                
+                const startX = cursorX;
+                const startY = cursorY;
+                const startTime = performance.now();
+                
+                function animate(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    
+                    cursorX = startX + (x - startX) * easeProgress;
+                    cursorY = startY + (y - startY) * easeProgress;
+                    
+                    cursor.style.left = cursorX + 'px';
+                    cursor.style.top = cursorY + 'px';
+                    cursorBackup.style.left = cursorX + 'px';
+                    cursorBackup.style.top = cursorY + 'px';
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        if (callback) callback();
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            
+            function animateClick(callback) {
+                cursor.style.animation = 'click 0.3s ease-in-out';
+                cursorBackup.style.animation = 'click 0.3s ease-in-out';
+                loadButton.style.transform = 'scale(0.95)';
+                loadButton.style.background = 'linear-gradient(145deg, #6d4c41, #5d4037)';
+                
+                setTimeout(() => {
+                    cursor.style.animation = '';
+                    cursorBackup.style.animation = '';
+                    loadButton.style.transform = 'scale(1)';
+                    loadButton.style.background = 'linear-gradient(145deg, #8d6e63, #6d4c41)';
+                    if (callback) callback();
+                }, 300);
+            }
+            
+            function updateProgress(percent, message) {
+                progressBar.style.width = percent + '%';
+                progressPercent.textContent = percent + '%';
+                if (message) loadingMessage.textContent = message;
+                if (percent === 100) {
+                    progressBar.classList.add('pulse');
+                    loadingMessage.innerHTML = '<span class="completed-text">✓ Загрузка завершена! Начинаем путешествие...</span>';
+                }
+            }
+            
+            function startLoadingAnimation() {
+                setTimeout(() => {
+                    moveCursorTo(buttonCenterX-5, buttonCenterY-32, 2000, () => {
+                        setTimeout(() => {
+                            animateClick(() => {
+                                showLoadingElements();
+                                setTimeout(() => {
+                                    loadButton.querySelector('.button-text').textContent = 'Загрузка...';
+                                    loadButton.style.cursor = 'default';
+                                    setTimeout(() => {
+                                        startProgressAnimation();
+                                    }, 1000);
+                                }, 500);
+                            });
+                        }, 500);
+                    });
+                }, 1000);
+            }
+            
+            function startProgressAnimation() {
+                let progress = 0;
+                const messages = [
+                    "Инициализация ядра программирования...",
+                    "Загрузка алгоритмов движения...",
+                    "Настройка боевых систем...",
+                    "Подготовка уровней испытаний...",
+                    "Оптимизация кодовых замков...",
+                    "Загрузка завершена!"
+                ];
+                
+                const interval = setInterval(() => {
+                    progress += 2;
+                    if (progress > 100) progress = 100;
+                    updateProgress(progress);
+                    
+                    if (progress >= 10 && progress < 25) loadingMessage.textContent = messages[0];
+                    if (progress >= 25 && progress < 45) loadingMessage.textContent = messages[1];
+                    if (progress >= 45 && progress < 65) loadingMessage.textContent = messages[2];
+                    if (progress >= 65 && progress < 85) loadingMessage.textContent = messages[3];
+                    if (progress >= 85 && progress < 100) loadingMessage.textContent = messages[4];
+                    if (progress === 100) {
+                        loadingMessage.textContent = messages[5];
+                        clearInterval(interval);
+                        
+                        setTimeout(() => {
+                            document.getElementById('loading-container').style.animation = 'fadeOut 1s ease-in-out forwards';
+                            setTimeout(() => {
+                                document.getElementById('loading-container').style.display = 'none';
+                                document.getElementById('game-container').style.display = 'block';
+                                initGame();
+                            }, 1000);
+                        }, 2000);
+                    }
+                }, 50);
+            }
+            
+            // Проверка загрузки курсора
+            images.kursor.onload = function() {
+                cursor.style.background = 'url("kursor.png") no-repeat center center';
+                cursor.style.backgroundSize = 'contain';
+                cursorBackup.style.display = 'none';
+            };
+            
+            images.kursor.onerror = function() {
+                cursor.style.display = 'none';
+                cursorBackup.style.display = 'block';
+            };
+            
+            setTimeout(startLoadingAnimation, 500);
         });
-
-        // (Здесь должен быть полный код анимации загрузки, но для экономии места он опущен,
-        // его можно скопировать из предыдущего ответа.)
     </script>
 </body>
 </html>
