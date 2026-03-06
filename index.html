@@ -1216,7 +1216,7 @@
                     <div class="workshop-controls">
                         <button class="button" id="workshop-back-btn">← Назад</button>
                         <div class="workshop-grid-controls">
-                            <button class="button" id="workshop-clear-btn">Очистить</button>
+                            <button class="button" id="workshop-clear-btn">Очистить всё</button>
                         </div>
                     </div>
                 </div>
@@ -1748,6 +1748,7 @@
             select.value = '';
         }
 
+        // ========== ОБНОВЛЁННАЯ ФУНКЦИЯ КЛИКА В МАСТЕРСКОЙ ==========
         function handleWorkshopClick(e) {
             const rect = workshopCanvas.getBoundingClientRect();
             const scaleX = workshopCanvas.width / rect.width;
@@ -1761,6 +1762,44 @@
             
             if (gridX < 0 || gridX >= GRID_WIDTH || gridY < 0 || gridY >= GRID_HEIGHT) return;
             
+            // Левый клик - размещение выбранного объекта
+            if (e.button === 0) {
+                const obj = workshopState.selectedObject;
+                
+                // Проверка уникальности для робота и цели
+                if (obj === 'robot' && workshopState.robot) {
+                    const oldRobot = workshopState.robot;
+                    if (oldRobot) workshopState.grid[oldRobot.y][oldRobot.x] = null;
+                }
+                if (obj === 'target' && workshopState.target) {
+                    const oldTarget = workshopState.target;
+                    if (oldTarget) workshopState.grid[oldTarget.y][oldTarget.x] = null;
+                }
+                
+                const current = workshopState.grid[gridY][gridX];
+                if (current === 'robot') workshopState.robot = null;
+                if (current === 'target') workshopState.target = null;
+                if (current === 'enemy') {
+                    workshopState.enemies = workshopState.enemies.filter(e => !(e.x === gridX && e.y === gridY));
+                }
+                if (current === 'wall') {
+                    workshopState.walls = workshopState.walls.filter(w => !(w.x === gridX && w.y === gridY));
+                }
+                
+                workshopState.grid[gridY][gridX] = obj;
+                
+                if (obj === 'robot') {
+                    workshopState.robot = {x: gridX, y: gridY};
+                } else if (obj === 'target') {
+                    workshopState.target = {x: gridX, y: gridY};
+                } else if (obj === 'enemy') {
+                    workshopState.enemies.push({x: gridX, y: gridY});
+                } else if (obj === 'wall') {
+                    workshopState.walls.push({x: gridX, y: gridY});
+                }
+            }
+            
+            // Правый клик - удаление объекта
             if (e.button === 2) {
                 const current = workshopState.grid[gridY][gridX];
                 if (current === 'robot') workshopState.robot = null;
@@ -1772,41 +1811,6 @@
                     workshopState.walls = workshopState.walls.filter(w => !(w.x === gridX && w.y === gridY));
                 }
                 workshopState.grid[gridY][gridX] = null;
-                renderWorkshop();
-                return;
-            }
-            
-            const obj = workshopState.selectedObject;
-            
-            if (obj === 'robot' && workshopState.robot) {
-                const oldRobot = workshopState.robot;
-                if (oldRobot) workshopState.grid[oldRobot.y][oldRobot.x] = null;
-            }
-            if (obj === 'target' && workshopState.target) {
-                const oldTarget = workshopState.target;
-                if (oldTarget) workshopState.grid[oldTarget.y][oldTarget.x] = null;
-            }
-            
-            const current = workshopState.grid[gridY][gridX];
-            if (current === 'robot') workshopState.robot = null;
-            if (current === 'target') workshopState.target = null;
-            if (current === 'enemy') {
-                workshopState.enemies = workshopState.enemies.filter(e => !(e.x === gridX && e.y === gridY));
-            }
-            if (current === 'wall') {
-                workshopState.walls = workshopState.walls.filter(w => !(w.x === gridX && w.y === gridY));
-            }
-            
-            workshopState.grid[gridY][gridX] = obj;
-            
-            if (obj === 'robot') {
-                workshopState.robot = {x: gridX, y: gridY};
-            } else if (obj === 'target') {
-                workshopState.target = {x: gridX, y: gridY};
-            } else if (obj === 'enemy') {
-                workshopState.enemies.push({x: gridX, y: gridY});
-            } else if (obj === 'wall') {
-                workshopState.walls.push({x: gridX, y: gridY});
             }
             
             renderWorkshop();
